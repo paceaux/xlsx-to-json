@@ -1,3 +1,4 @@
+#!/usr/bin/python2.7
 import xlrd
 import xlwt
 import json
@@ -49,16 +50,17 @@ def getWorkBookData(workbook):
 	return workbookdata
 
 def main():
-	filename = input("Enter the path to the file name")
+	filename = raw_input("Enter the path to the filename -> ")
 
 	if os.path.isfile(filename):
 		workbook = xlrd.open_workbook(filename)
 		workbookdata = getWorkBookData(workbook)
-		output = open(filename.replace("xlsx", "json"), "wb")
-		output.write(json.dumps(workbookdata, sort_keys=True,indent=4, separators=(',', ": ")))
+		output = \
+		open((filename.replace("xlsx", "json")).replace("xls", "json"), "wb")
+		output.write(json.dumps(workbookdata, sort_keys=True, indent=4,  separators=(',', ": ")))
 		output.close()
 		print "%s was created" %output.name
-	else :
+	else:
 		print "Sorry, that was not a valid filename"
 
 
