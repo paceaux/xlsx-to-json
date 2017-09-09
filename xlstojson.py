@@ -3,6 +3,7 @@ import xlrd
 import xlwt
 import json
 import os.path
+import datetime
 
 def getColNames(sheet):
 	rowSize = sheet.row_len(0)
@@ -19,7 +20,11 @@ def getRowData(row, columnNames):
 	counter = 0
 
 	for cell in row:
-		rowData[columnNames[counter]] = cell.value
+		# check if it is of date type print in iso format
+		if cell.ctype==xlrd.XL_CELL_DATE:
+			rowData[columnNames[counter]] = datetime.datetime(*xlrd.xldate_as_tuple(cell.value,0)).isoformat()
+		else:
+			rowData[columnNames[counter]] = cell.value
 		counter +=1
 
 	return rowData
@@ -51,7 +56,6 @@ def getWorkBookData(workbook):
 
 def main():
 	filename = raw_input("Enter the path to the filename -> ")
-
 	if os.path.isfile(filename):
 		workbook = xlrd.open_workbook(filename)
 		workbookdata = getWorkBookData(workbook)
@@ -62,7 +66,5 @@ def main():
 		print "%s was created" %output.name
 	else:
 		print "Sorry, that was not a valid filename"
-
-
 
 main()
