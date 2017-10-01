@@ -22,9 +22,9 @@ def getRowData(row, columnNames):
 	for cell in row:
 		# check if it is of date type print in iso format
 		if cell.ctype==xlrd.XL_CELL_DATE:
-			rowData[columnNames[counter]] = datetime.datetime(*xlrd.xldate_as_tuple(cell.value,0)).isoformat()
+			rowData[columnNames[counter].lower().replace(' ', '_')] = datetime.datetime(*xlrd.xldate_as_tuple(cell.value,0)).isoformat()
 		else:
-			rowData[columnNames[counter]] = cell.value
+			rowData[columnNames[counter].lower().replace(' ', '_')] = cell.value
 		counter +=1
 
 	return rowData
