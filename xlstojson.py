@@ -50,7 +50,7 @@ def getWorkBookData(workbook):
 		worksheet = workbook.sheet_by_index(idx)
 		columnNames = getColNames(worksheet)
 		sheetdata = getSheetData(worksheet, columnNames)
-		workbookdata[worksheet.name] = sheetdata
+		workbookdata[worksheet.name.lower().replace(' ', '_')] = sheetdata
 
 	return workbookdata
 
@@ -61,7 +61,7 @@ def main():
 		workbookdata = getWorkBookData(workbook)
 		output = \
 		open((filename.replace("xlsx", "json")).replace("xls", "json"), "wb")
-		output.write(json.dumps(workbookdata, sort_keys=True, indent=4,  separators=(',', ": ")))
+		output.write(json.dumps(workbookdata, sort_keys=True, indent=2,  separators=(',', ": ")))
 		output.close()
 		print "%s was created" %output.name
 	else:
