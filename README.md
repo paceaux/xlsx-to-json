@@ -1,11 +1,12 @@
 # xlsx-to-json
-Using Python, convert an Excel (xlsx) document to JSON
+Using Python, convert an Excel (xlsx or xls) document to JSON
 
 
 ## dependencies
 * pylightxl
+* xlrd
 
-you can run `pip3 install pylightxl` in your terminal/command window if you don't have these dependencies installed
+you can run `pip3 install pylightxl xlrd` in your terminal/command window if you don't have these dependencies installed
 
 ## Usage
 
