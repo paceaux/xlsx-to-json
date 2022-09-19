@@ -1,5 +1,22 @@
 '''Module that reads an xlsx spreadsheet and can produce json data from it'''
 import pylightxl as xl
+import datetime
+from dateutil.parser import parse
+
+def is_date(string, fuzzy=False):
+    """
+    Return whether the string can be interpreted as a date.
+
+    :param string: str, string to check for date
+    :param fuzzy: bool, ignore unknown tokens in string if True
+    https://stackoverflow.com/a/25341965/1045901
+    """
+    try:
+        parse(string, fuzzy=fuzzy)
+        return True
+
+    except ValueError:
+        return False
 
 def get_column_names(sheet):
     '''Takes a single worksheet, returns the strings in the top row of each column'''
@@ -19,9 +36,11 @@ def get_row_data(row, column_names):
     counter = 0
 
     for cell in row:
-        column_name = column_names[counter]
-        #TODO: this doesn't format any for a cell. Consider formatting date/numbers
-        row_data[column_name] = cell
+        column_name = column_names[counter].lower().replace(' ', '_')
+        cell_value = cell
+        if is_date(cell):
+            cell_value = datetime.datetime(cell_value).isoformat()
+        row_data[column_name] = cell_value
         counter = counter + 1
 
     return row_data
