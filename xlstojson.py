@@ -4,62 +4,60 @@ import json
 import os.path
 import datetime
 
-def getColNames(sheet):
-	columnLists = sheet.cols
-	columnNames = []
+def get_column_names(sheet):
+	column_lists = sheet.cols
+	column_names = []
  
-	for columnList in columnLists:
-		columnNames.append(columnList[00])
+	for columnList in column_lists:
+		column_names.append(columnList[00])
 
-	return columnNames
+	return column_names
 
-def getRowData(row, columnNames):
-	rowData = {}
+def get_row_data(row, column_names):
+	row_data = {}
 	counter = 0
 
 	for cell in row:
-		columnName = columnNames[counter]
-		rowData[columnName] = cell
+		column_name = column_names[counter]
+		row_data[column_name] = cell
 		counter = counter + 1
 
-	return rowData
+	return row_data
 
-def getSheetData(sheet, columnNames):
-	maxRows = sheet.size[0]
-	columnLists = sheet.cols
-	sheetData = []
+def get_sheet_data(sheet, column_names):
+	max_rows = sheet.size[0]
+	sheet_data = []
 
-	for idx in range(2, maxRows):
+	for idx in range(2, max_rows):
 		row = sheet.row(idx)
-		rowData = getRowData(row, columnNames)
-		sheetData.append(rowData)
+		rowData = get_row_data(row, column_names)
+		sheet_data.append(rowData)
 
-	return sheetData
+	return sheet_data
 
-def getWorkBookData(workbook):
-	workbookSheetNames = workbook.ws_names
-	counter = 0
-	workbookdata = {}
+def get_workbook_data(workbook):
+	workbook_sheet_names = workbook.ws_names
+	workbook_data = {}
 
-	for sheetName in workbookSheetNames:
-		worksheet = workbook.ws(ws=sheetName)
-		columnNames = getColNames(worksheet)
-		sheetdata = getSheetData(worksheet, columnNames)
-		workbookdata[sheetName.lower().replace(' ', '_')] = sheetdata
+	for sheet_name in workbook_sheet_names:
+		worksheet = workbook.ws(ws=sheet_name)
+		column_names = get_column_names(worksheet)
+		sheet_data = get_sheet_data(worksheet, column_names)
+		workbook_data[sheet_name.lower().replace(' ', '_')] = sheet_data
 
-	return workbookdata
+	return workbook_data
 
-def getWorkbook(filename):
+def get_workbook(filename):
 	return xl.readxl(filename)
 
 def main():
 	filename = input("Enter the path to the filename -> ")
 	if os.path.isfile(filename):
-		workbook = getWorkbook(filename)
-		workbookdata = getWorkBookData(workbook)
+		workbook = get_workbook(filename)
+		workbook_data = get_workbook_data(workbook)
 		output = \
 		open((filename.replace("xlsx", "json")).replace("xls", "json"), "w+")
-		output.write(json.dumps(workbookdata, sort_keys=True, indent=2,  separators=(',', ": ")))
+		output.write(json.dumps(workbook_data, sort_keys=True, indent=2,  separators=(',', ": ")))
 		output.close()
 		print ("%s was created" %output.name)
 	else:
