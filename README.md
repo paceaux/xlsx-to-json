@@ -3,15 +3,14 @@ Using Python, convert an Excel document to JSON
 
 
 ## dependencies
-* xlrd
-* xlwt
+* pylightxl
 
-you can run `pip install xlrd` in your terminal/command window if you don't have these dependencies installed
+you can run `pip install pylightxl` in your terminal/command window if you don't have these dependencies installed
 
 ## Usage
 
-* Run the command `python xslx-to-json.py` in your terminal/command window
-* Do what the prompt says
+* Run the command `python xlstojson.py` in your terminal/command window
+* Do what the prompt says (which is enter the path to the file)
 
 A .json file matching the name of your xlsx document will be generated.
 
